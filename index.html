@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CallReply — Never Miss a Customer Again</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:    #0d1f3c;
+    --navy2:   #162d54;
+    --blue:    #1a6fe8;
+    --blue2:   #2b84ff;
+    --blue-lt: #e8f1fd;
+    --blue-md: #ccddfb;
+    --white:   #ffffff;
+    --off:     #f5f7fc;
+    --off2:    #edf1f9;
+    --text:    #0d1f3c;
+    --muted:   #5a6a88;
+    --border:  #dce6f5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.1rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  /* SVG logo inline — matches the uploaded icon */
+  .logo-svg {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .logo-wordmark {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    line-height: 1;
+  }
+
+  .logo-wordmark span { color: var(--blue); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  nav ul a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--navy); }
+
+  .nav-cta {
+    background: var(--blue);
+    color: #fff !important;
+    padding: 0.55rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 700 !important;
+    transition: background 0.2s, box-shadow 0.2s !important;
+    box-shadow: 0 4px 14px rgba(26,111,232,0.25);
+  }
+  .nav-cta:hover { background: var(--navy) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 9rem 2rem 5rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--white);
+  }
+
+  /* subtle dot-grid background */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--blue-md) 1.2px, transparent 1.2px);
+    background-size: 30px 30px;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  /* blue glow behind hero content */
+  .hero-glow {
+    position: absolute;
+    width: 750px; height: 500px;
+    background: radial-gradient(ellipse, rgba(26,111,232,0.1) 0%, transparent 70%);
+    top: 15%; left: 50%; transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--blue-lt);
+    border: 1px solid var(--blue-md);
+    color: var(--blue);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    animation: fadeUp 0.55s ease both;
+    position: relative;
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--blue);
+    border-radius: 50%;
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%,100% { opacity:1; } 50% { opacity:0.3; }
+  }
+
+  h1 {
+    font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.06;
+    max-width: 860px;
+    position: relative;
+    animation: fadeUp 0.6s 0.1s ease both;
+    color: var(--navy);
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--blue);
+  }
+
+  .hero-sub {
+    margin-top: 1.5rem;
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.75;
+    font-weight: 500;
+    animation: fadeUp 0.6s 0.2s ease both;
+    position: relative;
+  }
+
+  .hero-actions {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
+    position: relative;
+  }
+
+  .btn-primary {
+    background: var(--blue);
+    color: #fff;
+    padding: 0.9rem 2.1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 6px 20px rgba(26,111,232,0.3);
+  }
+  .btn-primary:hover {
+    background: var(--navy);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(13,31,60,0.25);
+  }
+
+  .btn-secondary {
+    background: var(--white);
+    color: var(--navy);
+    padding: 0.9rem 2.1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1.5px solid var(--border);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--blue);
+    background: var(--blue-lt);
+    color: var(--blue);
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(22px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── PHONE MOCKUP ── */
+  .mockup-wrap {
+    margin-top: 4rem;
+    position: relative;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+
+  .phone {
+    width: 290px;
+    background: var(--white);
+    border-radius: 38px;
+    border: 2px solid var(--navy);
+    padding: 1.5rem 1.1rem 1.8rem;
+    box-shadow: 0 30px 80px rgba(13,31,60,0.14), 0 0 0 6px var(--blue-lt);
+    position: relative;
+  }
+
+  .phone-notch {
+    width: 80px; height: 9px;
+    background: var(--navy);
+    border-radius: 6px;
+    margin: 0 auto 1.3rem;
+    opacity: 0.15;
+  }
+
+  .missed-call {
+    background: var(--off);
+    border-radius: 14px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    border: 1px solid var(--border);
+  }
+
+  .call-icon {
+    width: 40px; height: 40px;
+    background: var(--navy);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* inline crossed-phone SVG inside mock */
+  .call-icon svg { width: 18px; height: 18px; }
+
+  .call-details { text-align: left; flex: 1; }
+  .call-name { font-size: 0.82rem; font-weight: 700; color: var(--navy); }
+  .call-label {
+    font-size: 0.67rem;
+    color: #d93030;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 0.1rem;
+    font-weight: 500;
+  }
+  .call-time {
+    font-size: 0.64rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  /* dotted relay arrow */
+  .relay-arrow {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-start;
+    padding: 0 0.3rem 0.6rem;
+  }
+  .dot-relay {
+    width: 6px; height: 6px;
+    background: var(--blue);
+    border-radius: 50%;
+    animation: dotMove 1.4s infinite;
+  }
+  .dot-relay:nth-child(2) { animation-delay: 0.2s; }
+  .dot-relay:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotMove {
+    0%,100% { opacity:0.25; transform:scale(0.8); }
+    50% { opacity:1; transform:scale(1.2); }
+  }
+
+  .sms-bubble {
+    background: var(--blue);
+    border-radius: 14px 14px 14px 4px;
+    padding: 0.9rem 1rem;
+    position: relative;
+  }
+
+  .sms-auto-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 0.35rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .sms-text {
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .sms-sent {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 0.5rem;
+  }
+
+  .relay-tag {
+    position: absolute;
+    top: -11px; right: -10px;
+    background: var(--navy);
+    color: #fff;
+    font-size: 0.52rem;
+    font-weight: 700;
+    padding: 0.22rem 0.6rem;
+    border-radius: 100px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 7rem 2rem; }
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--blue);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    color: var(--navy);
+    margin-bottom: 0.9rem;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.75;
+    max-width: 460px;
+    margin-bottom: 3.5rem;
+    font-weight: 500;
+  }
+
+  /* ── HOW IT WORKS ── */
+  #how { background: var(--off); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .step {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 2.2rem;
+    position: relative;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  }
+
+  .step:hover {
+    border-color: var(--blue);
+    box-shadow: 0 8px 30px rgba(26,111,232,0.1);
+    transform: translateY(-3px);
+  }
+
+  .step-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--blue);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+  }
+
+  .step-icon {
+    width: 52px; height: 52px;
+    background: var(--blue-lt);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem;
+  }
+
+  .step-icon svg { width: 26px; height: 26px; }
+
+  .step h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+
+  .step p {
+    font-size: 0.86rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 500;
+  }
+
+  /* ── FEATURES ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .feature {
+    background: var(--off);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 2.2rem;
+    transition: border-color 0.25s, background 0.25s, transform 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--navy));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .feature:hover {
+    border-color: var(--blue);
+    background: var(--blue-lt);
+    transform: translateY(-3px);
+  }
+
+  .feature:hover::after { opacity: 1; }
+
+  .feature-icon {
+    width: 48px; height: 48px;
+    background: var(--blue);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.3rem;
+    font-size: 1.25rem;
+  }
+
+  .feature h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.55rem;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+
+  .feature p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 500;
+  }
+
+  /* ── STATS ── */
+  .stats-section {
+    background: var(--navy);
+    padding: 5.5rem 2rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: var(--blue2);
+  }
+
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 0.5rem;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+  /* ── PRICING ── */
+  #pricing { background: var(--off); }
+
+  .pricing-wrap { text-align: center; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+    text-align: left;
+  }
+
+  .plan {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 2.2rem;
+    position: relative;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+
+  .plan:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(13,31,60,0.1);
+  }
+
+  .plan.featured {
+    border-color: var(--blue);
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .plan.featured .plan-name { color: rgba(255,255,255,0.55); }
+  .plan.featured .plan-desc { color: rgba(255,255,255,0.55); }
+  .plan.featured .plan-features li { color: #fff; border-color: rgba(255,255,255,0.1); }
+  .plan.featured .plan-features li.disabled { color: rgba(255,255,255,0.3); }
+  .plan.featured .plan-price { color: #fff; }
+
+  .plan-badge {
+    position: absolute;
+    top: -13px; left: 50%; transform: translateX(-50%);
+    background: var(--blue);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 0.28rem 1rem;
+    border-radius: 100px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .plan-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+
+  .plan-price {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: var(--navy);
+    line-height: 1;
+  }
+
+  .plan-price sup { font-size: 1.3rem; vertical-align: super; }
+  .plan-price span { font-size: 0.85rem; font-weight: 500; color: var(--muted); }
+
+  .plan-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0.8rem 0 1.6rem;
+    line-height: 1.65;
+    font-weight: 500;
+  }
+
+  .plan-features {
+    list-style: none;
+    margin-bottom: 2rem;
+  }
+
+  .plan-features li {
+    font-size: 0.86rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .plan-features li::before {
+    content: '✓';
+    color: var(--blue);
+    font-size: 0.78rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .plan-features li.disabled {
+    color: var(--muted);
+    text-decoration: line-through;
+    font-weight: 400;
+  }
+  .plan-features li.disabled::before { content: '—'; color: var(--muted); }
+
+  .plan-btn {
+    display: block;
+    text-align: center;
+    padding: 0.85rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .plan-btn-outline {
+    border: 1.5px solid var(--border);
+    color: var(--navy);
+  }
+  .plan-btn-outline:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: var(--blue-lt);
+  }
+
+  .plan-btn-solid {
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 5px 16px rgba(26,111,232,0.35);
+  }
+  .plan-btn-solid:hover {
+    background: var(--blue2);
+    box-shadow: 0 8px 24px rgba(26,111,232,0.45);
+    transform: translateY(-1px);
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--navy);
+    text-align: center;
+    padding: 8rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(43,132,255,0.15) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  .cta-section::after {
+    content: '';
+    position: absolute;
+    width: 600px; height: 500px;
+    background: radial-gradient(ellipse, rgba(26,111,232,0.2) 0%, transparent 65%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    color: #fff;
+    font-size: clamp(2.3rem, 5vw, 3.8rem);
+    max-width: 680px;
+    margin: 0 auto 1.3rem;
+    position: relative; z-index: 1;
+  }
+
+  .cta-section p {
+    color: rgba(255,255,255,0.55);
+    max-width: 420px;
+    margin: 0 auto 2.5rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    position: relative; z-index: 1;
+    font-weight: 500;
+  }
+
+  .cta-section .btn-primary {
+    position: relative; z-index: 1;
+    background: var(--blue2);
+    font-size: 1rem;
+    padding: 1rem 2.5rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    background: var(--white);
+  }
+
+  .footer-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .footer-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--navy); }
+
+  .footer-copy {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  /* ── REVEAL ── */
+  .reveal { opacity:0; transform:translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media (max-width: 680px) {
+    nav ul { display: none; }
+    nav { padding: 1.1rem 1.5rem; }
+    section { padding: 5rem 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <!-- Inline SVG matching the uploaded logo style -->
+    <svg class="logo-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- phone outline -->
+      <rect x="22" y="6" width="36" height="60" rx="7" stroke="#0d1f3c" stroke-width="4.5" fill="none"/>
+      <!-- notch -->
+      <rect x="33" y="3" width="14" height="5" rx="2.5" fill="#0d1f3c"/>
+      <!-- crossed phone circle -->
+      <circle cx="20" cy="54" r="13" fill="#0d1f3c"/>
+      <line x1="13" y1="61" x2="27" y2="47" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      <path d="M14 50 C14 47 17 45 20 47 L22 49" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M26 58 C26 61 23 63 20 61 L18 59" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <!-- dotted arc -->
+      <circle cx="30" cy="48" r="1.8" fill="#1a6fe8"/>
+      <circle cx="37" cy="43" r="1.8" fill="#1a6fe8"/>
+      <circle cx="44" cy="40" r="1.8" fill="#1a6fe8"/>
+      <!-- speech bubble -->
+      <rect x="38" y="24" width="32" height="22" rx="7" fill="#1a6fe8"/>
+      <polygon points="44,46 50,46 44,54" fill="#1a6fe8"/>
+      <!-- dots inside bubble -->
+      <circle cx="47" cy="35" r="2.5" fill="white"/>
+      <circle cx="54" cy="35" r="2.5" fill="white"/>
+      <circle cx="61" cy="35" r="2.5" fill="white"/>
+      <!-- speed lines -->
+      <line x1="72" y1="31" x2="80" y2="31" stroke="#1a6fe8" stroke-width="3" stroke-linecap="round"/>
+      <line x1="74" y1="36" x2="80" y2="36" stroke="#1a6fe8" stroke-width="3" stroke-linecap="round"/>
+      <line x1="76" y1="41" x2="80" y2="41" stroke="#1a6fe8" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <div class="logo-wordmark">Call<span>Reply</span></div>
+  </a>
+
+  <ul>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#cta" class="nav-cta">Start Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="badge">⚡ Auto-reply in under 10 seconds</div>
+  <h1>Every Missed Call Gets<br><em>An Instant Text Back</em></h1>
+  <p class="hero-sub">
+    CallReply automatically sends a personalized text the moment a customer call goes unanswered — keeping your leads warm around the clock.
+  </p>
+  <div class="hero-actions">
+    <a href="#cta" class="btn-primary">Get Started Free →</a>
+    <a href="#how" class="btn-secondary">See How It Works</a>
+  </div>
+
+  <!-- Phone mockup -->
+  <div class="mockup-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+
+      <div class="missed-call">
+        <div class="call-icon">
+          <!-- mini crossed phone -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="4" y1="20" x2="20" y2="4" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M5 9 C5 6.5 7.5 5 10 6.5 L12 8.5" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M19 15 C19 17.5 16.5 19 14 17.5 L12 15.5" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="call-details">
+          <div class="call-name">Sarah Mitchell</div>
+          <div class="call-label">● Missed Call</div>
+        </div>
+        <div class="call-time">2s ago</div>
+      </div>
+
+      <div class="relay-arrow">
+        <div class="dot-relay"></div>
+        <div class="dot-relay"></div>
+        <div class="dot-relay"></div>
+      </div>
+
+      <div class="sms-bubble">
+        <div class="relay-tag">CallReply</div>
+        <div class="sms-auto-label">Auto-Reply Sent</div>
+        <div class="sms-text">Hi Sarah! Sorry we missed your call — we're with another customer right now. We'll reach out shortly. Feel free to reply here anytime! 👋</div>
+        <div class="sms-sent">✓✓ Delivered · just now</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">How It Works</div>
+      <h2>From missed call to<br>connected customer</h2>
+      <p class="section-sub">Three steps, fully automated. Set it up once and let CallReply work 24/7.</p>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">01 —</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" fill="#0d1f3c"/><line x1="7" y1="19" x2="19" y2="7" stroke="white" stroke-width="2.5" stroke-linecap="round"/><path d="M7.5 11 C7.5 9 9.5 8 11.5 9 L13 10.5" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M18.5 15 C18.5 17 16.5 18 14.5 17 L13 15.5" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <h3>Call Goes Unanswered</h3>
+        <p>A customer calls your number. You're on another call, with a client, or simply after hours — no answer.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02 —</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 26 26" fill="none"><rect x="2" y="7" width="22" height="14" rx="5" fill="#1a6fe8"/><circle cx="8" cy="14" r="2" fill="white"/><circle cx="13" cy="14" r="2" fill="white"/><circle cx="18" cy="14" r="2" fill="white"/></svg>
+        </div>
+        <h3>CallReply Detects It</h3>
+        <p>Within seconds, our system detects the missed call and fires your personalized auto-reply workflow.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03 —</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 26 26" fill="none"><rect x="1" y="5" width="18" height="13" rx="4" fill="#1a6fe8"/><polygon points="5,18 11,18 5,24" fill="#1a6fe8"/><line x1="21" y1="9" x2="26" y2="9" stroke="#1a6fe8" stroke-width="2.5" stroke-linecap="round"/><line x1="22" y1="12.5" x2="26" y2="12.5" stroke="#1a6fe8" stroke-width="2.5" stroke-linecap="round"/><line x1="23" y1="16" x2="26" y2="16" stroke="#1a6fe8" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Customer Gets a Text</h3>
+        <p>A warm, professional SMS lands in their pocket instantly. They feel heard — and your lead stays warm.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Features</div>
+      <h2>Built for businesses that<br>live by the phone</h2>
+      <p class="section-sub">Everything you need to turn missed calls into booked customers.</p>
+    </div>
+
+    <div class="features-grid reveal">
+      <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <h3>Custom Message Templates</h3>
+        <p>Write your own reply or use ours. Personalize by business type, time of day, or caller history.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🕐</div>
+        <h3>After-Hours Mode</h3>
+        <p>Set different messages for business hours vs. evenings and weekends. Always sound professional.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>Reply Analytics</h3>
+        <p>See open rates, response rates, and which messages convert missed calls into booked appointments.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">💬</div>
+        <h3>Two-Way Texting</h3>
+        <p>Customers can reply and you can respond right from the CallReply dashboard — no new app needed.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📅</div>
+        <h3>Booking Link Integration</h3>
+        <p>Automatically include a scheduling link so customers can book instantly from the text.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔌</div>
+        <h3>Works With Your Number</h3>
+        <p>No number changes needed. CallReply works seamlessly with your existing business line.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="container">
+    <div class="stats-grid reveal">
+      <div>
+        <div class="stat-num">85%</div>
+        <div class="stat-label">of callers won't<br>call back if ignored</div>
+      </div>
+      <div>
+        <div class="stat-num">&lt;10s</div>
+        <div class="stat-label">average auto-reply<br>delivery time</div>
+      </div>
+      <div>
+        <div class="stat-num">3×</div>
+        <div class="stat-label">more responses<br>vs. voicemail</div>
+      </div>
+      <div>
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">always-on<br>coverage</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container pricing-wrap">
+    <div class="reveal">
+      <div class="section-label">Pricing</div>
+      <h2>Simple, honest pricing</h2>
+      <p class="section-sub" style="margin:0.5rem auto 0; max-width:400px;">No contracts. No setup fees. Cancel anytime.</p>
+    </div>
+
+    <div class="pricing-grid reveal">
+      <div class="plan">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price"><sup>$</sup>19<span>/mo</span></div>
+        <div class="plan-desc">Perfect for solo operators and freelancers.</div>
+        <ul class="plan-features">
+          <li>Up to 100 auto-replies/mo</li>
+          <li>1 custom message template</li>
+          <li>Basic analytics</li>
+          <li>Email support</li>
+          <li class="disabled">Two-way texting</li>
+          <li class="disabled">Booking link integration</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-outline">Get Started</a>
+      </div>
+
+      <div class="plan featured">
+        <div class="plan-badge">Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><sup>$</sup>49<span>/mo</span></div>
+        <div class="plan-desc">For growing businesses that can't afford to miss a call.</div>
+        <ul class="plan-features">
+          <li>Unlimited auto-replies</li>
+          <li>5 custom message templates</li>
+          <li>Full analytics dashboard</li>
+          <li>Two-way texting</li>
+          <li>Booking link integration</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-solid">Start Free Trial</a>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">Business</div>
+        <div class="plan-price"><sup>$</sup>99<span>/mo</span></div>
+        <div class="plan-desc">For teams managing multiple lines and locations.</div>
+        <ul class="plan-features">
+          <li>Unlimited auto-replies</li>
+          <li>Unlimited templates</li>
+          <li>Multi-location support</li>
+          <li>Team inbox + assignments</li>
+          <li>CRM integrations</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-outline">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="reveal">
+    <h2>Stop losing customers<br>to missed calls</h2>
+    <p>Set up CallReply in minutes. Your first 14 days are completely free — no credit card required.</p>
+    <a href="#" class="btn-primary">Start Your Free Trial →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a class="logo" href="#" style="gap:0.6rem;">
+      <svg style="width:32px;height:32px;" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="6" width="36" height="60" rx="7" stroke="#0d1f3c" stroke-width="4.5" fill="none"/>
+        <rect x="33" y="3" width="14" height="5" rx="2.5" fill="#0d1f3c"/>
+        <circle cx="20" cy="54" r="13" fill="#0d1f3c"/>
+        <line x1="13" y1="61" x2="27" y2="47" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M14 50 C14 47 17 45 20 47 L22 49" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M26 58 C26 61 23 63 20 61 L18 59" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <circle cx="30" cy="48" r="1.8" fill="#1a6fe8"/>
+        <circle cx="37" cy="43" r="1.8" fill="#1a6fe8"/>
+        <circle cx="44" cy="40" r="1.8" fill="#1a6fe8"/>
+        <rect x="38" y="24" width="32" height="22" rx="7" fill="#1a6fe8"/>
+        <polygon points="44,46 50,46 44,54" fill="#1a6fe8"/>
+        <circle cx="47" cy="35" r="2.5" fill="white"/>
+        <circle cx="54" cy="35" r="2.5" fill="white"/>
+        <circle cx="61" cy="35" r="2.5" fill="white"/>
+        <line x1="72" y1="31" x2="80" y2="31" stroke="#1a6fe8" stroke-width="3" stroke-linecap="round"/>
+        <line x1="74" y1="36" x2="80" y2="36" stroke="#1a6fe8" stroke-width="3" stroke-linecap="round"/>
+        <line x1="76" y1="41" x2="80" y2="41" stroke="#1a6fe8" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-wordmark" style="font-size:1.1rem;">Call<span>Reply</span></div>
+    </a>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Support</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="footer-copy">© 2026 CallReply. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
